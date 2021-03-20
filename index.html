@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Battle Sim</title>
+</head>
+<body>
+    <h1>RetroMMO Battle Simulator</h1>
+    <div class="setup-container">
+        <div class="player-container">
+            <div class="row">
+                <div class="player">
+                    <p>Warrior</p>
+                    <img src="https://play.retro-mmo.com/res/images/inns/girl.png" alt="">
+                </div>
+                <!-- <div class="player">
+                    <p>Mage</p>
+                    <img src="https://play.retro-mmo.com/res/images/inns/girl.png" alt="">
+                </div>
+                <div class="player">
+                    <p>Cleric</p>
+                    <img src="https://play.retro-mmo.com/res/images/inns/girl.png" alt="">
+                </div> -->
+            </div>
+        </div>
+        <div class="enemy-container">
+            <div class="row">
+                <div class="monster">
+                    <p>spider</p>
+                    <img src="https://play.retro-mmo.com/res/images/monsters/spider.png" alt="" id="spider">
+                </div>
+                <div class="monster">
+                    <p>lizard</p>
+                    <img src="https://play.retro-mmo.com/res/images/monsters/lizard.png" alt="" id="spider">
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    <h3>Battle Setup</h3>
+    <div class="battle-container">
+        <div class="party-container">
+            <div id="party" class="row party"></div>
+        </div>
+        <h4>VS</h4>
+        <div class="enemies-container">
+            <div id="enemies" class="row enemies"></div>
+        </div>
+    </div>
+    <div class="go-container">
+        <form action="">
+            <label># of Battles</label>
+            <input type="number" name="battles" id="battles" value=10>
+        </form>
+        <button onclick="simulateBattle()">GO</button>
+        <div class="results">
+            <p>Results:</p>
+            <p id='results'></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
