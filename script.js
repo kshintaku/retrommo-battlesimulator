@@ -129,8 +129,6 @@ function simulateBattle() {
             }
         }
     }
-    console.log(wins);
-    console.log(rounds);
 
     document.getElementById('results').textContent = `${Math.round((wins / rounds)*10)*10}% win rate`;
 }

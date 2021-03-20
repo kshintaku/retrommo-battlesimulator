@@ -27,6 +27,10 @@ label, input {
     text-align: center;
 }
 
+button {
+    cursor: pointer;
+}
+
 .setup-container {
     display: grid;
     grid-template-columns: 10em 10em;
@@ -70,12 +74,17 @@ label, input {
 .monster img, .player img {
     margin: auto;
     object-fit:none;
+    cursor: pointer;
 }
 
 .player img {
     width: 32px;
     object-fit:fill;
     display: none;
+}
+
+.player p {
+    cursor:pointer;
 }
 
 
