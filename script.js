@@ -43,6 +43,7 @@ var lizardObj = {
 var playArr = [];
 var enemyArr = [];
 var enemies = document.getElementById('enemies');
+var party = document.getElementById('party');
 var ability = {
     'attack': 100
 };
@@ -63,21 +64,25 @@ const getAbilityPhysicalDamage = (abilityName, strength, defense)=> {
 
 function simulateBattle() {
     var wins = 0;
-    var rounds = document.getElementById('battles').value;
+    var rounds = parseInt(document.getElementById('battles').value);
     var heroGroup = [];
     var enemyGroup = [];
+
+    if (playArr.length == 0 || enemyArr.length == 0) {
+        return;
+    }
 
     // Setting up the hero party
     for (var j = 0; j < playArr.length; j++) {
         var tempObj = {
-            'hp': document.getElementById(`p${j+1}-hp`).value,
-            'mp': document.getElementById(`p${j+1}-mp`).value,
-            'agi': document.getElementById(`p${j+1}-agi`).value,
-            'def': document.getElementById(`p${j+1}-def`).value,
-            'int': document.getElementById(`p${j+1}-int`).value,
-            'luck': document.getElementById(`p${j+1}-luck`).value,
-            'str': document.getElementById(`p${j+1}-str`).value,
-            'wis': document.getElementById(`p${j+1}-wis`).value
+            'hp': parseInt(document.getElementById(`p${j+1}-hp`).value),
+            'mp': parseInt(document.getElementById(`p${j+1}-mp`).value),
+            'agi': parseInt(document.getElementById(`p${j+1}-agi`).value),
+            'def': parseInt(document.getElementById(`p${j+1}-def`).value),
+            'int': parseInt(document.getElementById(`p${j+1}-int`).value),
+            'luck': parseInt(document.getElementById(`p${j+1}-luck`).value),
+            'str': parseInt(document.getElementById(`p${j+1}-str`).value),
+            'wis': parseInt(document.getElementById(`p${j+1}-wis`).value)
         };
         heroGroup.push(tempObj);
     }
@@ -85,27 +90,56 @@ function simulateBattle() {
     // Setting up the enemy group
     for (var j = 0; j < enemyArr.length; j++) {
         var tempObj = {
-            'hp': document.getElementById(`e${j+1}-hp`).value,
-            'mp': document.getElementById(`e${j+1}-mp`).value,
-            'agi': document.getElementById(`e${j+1}-agi`).value,
-            'def': document.getElementById(`e${j+1}-def`).value,
-            'int': document.getElementById(`e${j+1}-int`).value,
-            'luck': document.getElementById(`e${j+1}-luck`).value,
-            'str': document.getElementById(`e${j+1}-str`).value,
-            'wis': document.getElementById(`e${j+1}-wis`).value
+            'hp': parseInt(document.getElementById(`e${j+1}-hp`).value),
+            'mp': parseInt(document.getElementById(`e${j+1}-mp`).value),
+            'agi': parseInt(document.getElementById(`e${j+1}-agi`).value),
+            'def': parseInt(document.getElementById(`e${j+1}-def`).value),
+            'int': parseInt(document.getElementById(`e${j+1}-int`).value),
+            'luck': parseInt(document.getElementById(`e${j+1}-luck`).value),
+            'str': parseInt(document.getElementById(`e${j+1}-str`).value),
+            'wis': parseInt(document.getElementById(`e${j+1}-wis`).value)
         };
         enemyGroup.push(tempObj);
     }
+
+    var remainingHP = 0;
     for (var i = 0; i < rounds; i++) {
         var finished = false;
-        var tempParty = [...heroGroup];
-        var tempEnemy = [...enemyGroup];
-        // for (var j = 0; j < heroGroup.length; j++) {
-        //     partyHP.push(heroGroup[j].hp);
-        // }
-        // for (var j = 0; j < enemyGroup.length; j++) {
-        //     enemyHP.push(enemyGroup[j].hp);
-        // }
+        // var tempParty = [...heroGroup];
+        // var tempEnemy = [...enemyGroup];
+        var tempParty = [];
+        var tempEnemy = [];
+
+        // Setting up the hero party
+        for (var j = 0; j < playArr.length; j++) {
+            var tempObj = {
+                'hp': parseInt(document.getElementById(`p${j+1}-hp`).value),
+                'mp': parseInt(document.getElementById(`p${j+1}-mp`).value),
+                'agi': parseInt(document.getElementById(`p${j+1}-agi`).value),
+                'def': parseInt(document.getElementById(`p${j+1}-def`).value),
+                'int': parseInt(document.getElementById(`p${j+1}-int`).value),
+                'luck': parseInt(document.getElementById(`p${j+1}-luck`).value),
+                'str': parseInt(document.getElementById(`p${j+1}-str`).value),
+                'wis': parseInt(document.getElementById(`p${j+1}-wis`).value)
+            };
+            tempParty.push(tempObj);
+        }
+
+        // Setting up the enemy group
+        for (var j = 0; j < enemyArr.length; j++) {
+            var tempObj = {
+                'hp': parseInt(document.getElementById(`e${j+1}-hp`).value),
+                'mp': parseInt(document.getElementById(`e${j+1}-mp`).value),
+                'agi': parseInt(document.getElementById(`e${j+1}-agi`).value),
+                'def': parseInt(document.getElementById(`e${j+1}-def`).value),
+                'int': parseInt(document.getElementById(`e${j+1}-int`).value),
+                'luck': parseInt(document.getElementById(`e${j+1}-luck`).value),
+                'str': parseInt(document.getElementById(`e${j+1}-str`).value),
+                'wis': parseInt(document.getElementById(`e${j+1}-wis`).value)
+            };
+            tempEnemy.push(tempObj);
+        }
+        
         while (!finished) {
             for (var j = 0; j < tempParty.length && !finished; j++) {
                 tempEnemy[tempEnemy.length-1].hp = tempEnemy[tempEnemy.length-1].hp - getAbilityPhysicalDamage('attack', tempParty[j].str, tempEnemy[tempEnemy.length -1].def);
@@ -114,7 +148,8 @@ function simulateBattle() {
                     if (tempEnemy.length == 0) {
                         finished = true;
                         j = tempParty.length;
-                        wins++;
+                        remainingHP += tempParty[0].hp;
+                        wins = wins + 1;
                     }
                 }
             }
@@ -123,14 +158,23 @@ function simulateBattle() {
                 if (tempParty[tempParty.length-1].hp <= 0) {
                     tempParty.pop();
                     if (tempParty.length == 0) {
+                        j = tempEnemy.length;
                         finished = true;
                     }
                 }
             }
         }
     }
+    console.log(`Average HP on win: ${remainingHP / rounds}`);
 
     document.getElementById('results').textContent = `${Math.round((wins / rounds)*10)*10}% win rate`;
+}
+
+function clearAll() {
+    playArr = [];
+    enemyArr = [];
+    enemies.innerHTML = "";
+    party.innerHTML = "";
 }
 
 function createDOMStats(id, object) {
