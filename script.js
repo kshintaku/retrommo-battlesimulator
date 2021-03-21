@@ -166,8 +166,7 @@ function simulateBattle() {
         }
     }
     console.log(`Average HP on win: ${remainingHP / rounds}`);
-
-    document.getElementById('results').textContent = `${Math.round((wins / rounds)*10)*10}% win rate`;
+    document.getElementById('results').textContent = `${Math.round((wins / rounds) * 100)}% win rate`;
 }
 
 function clearAll() {
